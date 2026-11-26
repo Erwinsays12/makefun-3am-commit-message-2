@@ -8,5 +8,13 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const MESSAGE =
   "fix: the tests pass. i do not know why. i am not asking questions. merging before it notices";
 
+// Self-check the gate before writing: the entry must be 1-139 characters
+// of non-whitespace text, so refuse to emit a line that would be invalid.
+if (MESSAGE.length > 139 || MESSAGE.trim().length === 0) {
+  throw new Error(
+    `commit message must be 1-139 characters, got ${MESSAGE.length}`,
+  );
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", MESSAGE + "\n", "utf8");
